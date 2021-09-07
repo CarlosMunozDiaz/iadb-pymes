@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IADB - Digitalización PYMES</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700,800,900&amp;display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+<body>
+    <h2 style="font-size: 16px; font-weight: bold; margin-top: 12px; margin-bottom: 48px;">Gráfico 1</h2>
+    <div class="outer-chart">
+        <div class="chart">
+            <div class="chart__b-title--upper">
+                <div class="chart__sb-title">
+                    <h1 class="chart__title">Porcentaje de empresas que tienen su propio sitio web</h1>
+                    <h2 class="chart__subtitle">Por tamaño de empresa</h2>
+                </div>
+            </div>
+            <div class="chart__legend">
+                <span class="chart__legend--item more-colors-first">Pequeñas</span>
+                <span class="chart__legend--item more-colors-second">Medianas</span>
+                <span class="chart__legend--item more-colors-third">Grandes</span>
+            </div>
+            <div class="chart__viz" id="chart-one">
+            </div>
+            <p class="data-source"><span class="strong">Fuente:</span> Banco Mundial Enterprise Surveys se utilizó para los siguientes países y años de ALC: Argentina (2017), Bolivia (2017), República Dominicana (2016), Ecuador. (2017), El Salvador (2016), Guatemala (2017), Honduras (2016), Nicaragua (2016), Paraguay (2017), Perú (2017), Surinam (2018) y Uruguay (2017).</p>           
+            <p class="data-note">Nota 1: Los datos de la OCDE de las TIC empresariales se utilizaron para Brasil (2019), Colombia (2018) y el promedio de la OCDE que excluye a los países de ALC y los siguientes países para los que faltan datos para 2019: Australia, Canadá, Finlandia, Islandia, Japón, Corea del Sur, Nueva Zelanda, Suiza, Estados Unidos.</p>
+            <p class="data-note">Nota 2: Las encuestas de empresas definen el tamaño de la empresa como: pequeña (5-19), mediana (20-99) y grande (100+) y la OCDE define el tamaño de la empresa como: pequeña (10-49), mediana (50-249 ) y grande (250+).</p>
+        </div>
+    </div>
+    <h2 style="font-size: 16px; font-weight: bold; margin-top: 12px; margin-bottom: 48px;">Gráfico 2</h2>
+    <div class="outer-chart">
+        <div class="chart">
+            <div class="chart__b-title--upper">
+                <div class="chart__sb-title">
+                    <h1 class="chart__title">Adopción de tecnologías digitales avanzadas</h1>
+                    <h2 class="chart__subtitle">Datos en porcentajes</h2>
+                </div>
+            </div>
+            <div class="chart__legend">
+                <span class="chart__legend--item more-colors-first">Brasil</span>
+                <span class="chart__legend--item more-colors-second">México</span>
+                <span class="chart__legend--item more-colors-third">Colombia</span>
+                <span class="chart__legend--item more-colors-fourth">Chile</span>
+                <span class="chart__legend--item more-colors-fourth">Argentina</span>
+            </div>
+            <div class="chart__viz" id="chart-two">
+            </div>
+            <p class="data-source"><span class="strong">Fuente:</span> Datos de Basco et al., 2020, p 51 tabla 2.6. Datos de 2019</p>
+            <p class="data-note">Nota: Resultados de la encuesta Adopción Tecnológica, Empleo y Comercio Internacional (EATEC) que fue realizado entre 2018 y 2019 a más de 1100 empresas en Argentina, Chile, Brasil, México y Colombia (entre 200 y 250 empresas por país) en los sectores más relevantes para la integración comercial regional.  De las cuales 72% son pequeñas o microempresas (cuentan menos de 50 empleados) y 19% tienen entre 50 y 200 empleados y solo 9% tienen más de 200 empleados.</p>
+        </div>
+    </div>
+    <h2 style="font-size: 16px; font-weight: bold; margin-top: 48px; margin-bottom: 48px;">Gráfico 3</h2>
+    <div class="outer-chart">
+        <div class="chart">
+            <div class="chart__b-title--upper">
+                <div class="chart__sb-title">
+                    <h1 class="chart__title">Medidas desplegadas en la región para apoyar a las mipymes</h1>
+                    <h2 class="chart__subtitle">Por tipo de medida. Datos recopilados entre marzo de 2020 y marzo de 2021</h2>
+                </div>
+            </div>
+            <div class="chart__viz" id="chart-three"></div>                       
+            <p class="data-source"><span class="strong">Fuente:</span> BID</p>          
+        </div>
+    </div>
+    <div class="chart__tooltip" id="chartTooltip">
+        <p class="chart__tooltip--title"></p>
+        <p class="chart__tooltip--text"></p>
+    </div>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="./js/tooltip.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
