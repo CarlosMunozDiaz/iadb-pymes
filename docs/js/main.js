@@ -15,7 +15,8 @@ function getFirstChart() {
             pais: d.Pais,
             emp_pequena: +d['Pequeñas'],
             emp_mediana: +d['Medianas'],
-            emp_grande: +d['Grandes']
+            emp_grande: +d['Grandes'],
+            rango: +d['Grandes'] - +d['Pequeñas']
         }
     }, function(error, data) {
         if (error) throw error;
@@ -77,32 +78,28 @@ function getFirstChart() {
         //     }
         // });
 
-        initChart();
-
-        //Hay líneas gruesas (para los rangos de cada país)
-
-
-        //Hay círculos para pequeñas - medianas - grandes empresas de cada país
+        initChart();        
 
         function initChart() {
+            //Hay líneas gruesas (para los rangos de cada país) > ¿Barras?
             chart.selectAll(".bar")
                 .data(data)
                 .enter()
                 .append("rect")
                 .attr('class', function(d, i) { return `bar bar-${i}`; })
-                .style('fill', one_color)
+                .style('fill', '#cecece')
                 .attr("x", function (d) {
                     return x(0);
                 })
                 .attr("y", function (d) {
-                    return y(d.tipo) + y.bandwidth() / 4;
+                    return y(d.pais) + y.bandwidth() / 4;
                 })            
                 .attr("height", y.bandwidth() / 2)
                 .on('mouseenter mousedown mousemove mouseover', function(d, i, e) {
                     let css = e[i].getAttribute('class').split('-')[1];
                     //Texto
-                    let html = `<p class="chart__tooltip--title">${d.tipo}</p>
-                                <p class="chart__tooltip--text">${numberWithCommas(d.porcentaje.toFixed(2))}%</p>`; //Solucionar recogida de información
+                    let html = `<p class="chart__tooltip--title">${d.pais}</p>
+                                <p class="chart__tooltip--text">Diferencia: ${numberWithCommas(d.rango.toFixed(2))}</p>`;
 
                     tooltip.html(html);
 
@@ -131,13 +128,165 @@ function getFirstChart() {
                     getOutTooltip(tooltip); 
                 })
                 .transition()
-                .duration(3000)
+                .duration(1500)
                 .attr("x", function (d) {
-                    return x(Math.min(0, d.porcentaje));
+                    return x(Math.min(d.emp_pequena, d.emp_grande));
                 })
                 .attr("width", function (d) {
-                    return Math.abs(x(d.porcentaje) - x(0));
+                    return Math.abs(x(d.emp_grande) - x(d.emp_pequena));
                 });
+
+
+            //Hay círculos para pequeñas - medianas - grandes empresas de cada país
+            chart.selectAll('.circles')
+                .data(data)
+                .enter()
+                .append('circle')
+                .attr('class', 'web-circle web-circle-pequenas')
+                .attr("r", function(d) { return y.bandwidth() / 4;})
+                .attr("cx", function(d) { return x(d.emp_pequena); })
+                .attr("cy", function(d) { return y(d.pais) + y.bandwidth() / 2; })
+                .style("fill", `${more_colors_first}`)
+                .style('opacity', '0')
+                .on('mouseenter mousedown mousemove mouseover', function(d, i, e) {
+                    //Texto
+                    let html = `<p class="chart__tooltip--title">${d.pais}</p>
+                        <p class="chart__tooltip--text">Emp. pequeñas: ${numberWithCommas(d.emp_pequena)}%</p>`;
+    
+                    tooltip.html(html);
+    
+                    //Posibilidad visualización línea diferente
+                    let current = e[i].getAttribute('class').split(" ")[1];
+                    let others = e[i].getAttribute('class').split(" ")[0];
+                    let otherCircles = chartBlock.selectAll(`.${others}`);
+
+                    otherCircles.each(function() {
+                        this.style.opacity = '0.4';
+                        if(this.getAttribute('class').indexOf(`${current}`) != -1) {
+                            this.style.opacity = '1';
+                        }
+                    });
+    
+                    //Tooltip
+                    positionTooltip(window.event, tooltip);
+                    getInTooltip(tooltip);               
+                })
+                .on('mouseout', function(d, i, e) {
+                    //Quitamos los estilos de la línea
+                    let others = e[i].getAttribute('class').split(" ")[0];
+                    let otherCircles = chartBlock.selectAll(`.${others}`);
+
+                    otherCircles.each(function() {
+                        this.style.opacity = '1';
+                    });
+    
+                    //Quitamos el tooltip
+                    getOutTooltip(tooltip);                
+                })
+                .transition()
+                .delay(1500)
+                .duration(750)
+                .style('opacity', '1')
+
+            chart.selectAll('.circles')
+                .data(data)
+                .enter()
+                .append('circle')
+                .attr('class', 'web-circle web-circle-medianas')
+                .attr("r", function(d) { return y.bandwidth() / 4;})
+                .attr("cx", function(d) { return x(d.emp_mediana); })
+                .attr("cy", function(d) { return y(d.pais) + y.bandwidth() / 2; })
+                .style("fill", `${more_colors_second}`)
+                .style('opacity', '0')
+                .on('mouseenter mousedown mousemove mouseover', function(d, i, e) {
+                    //Texto
+                    let html = `<p class="chart__tooltip--title">${d.pais}</p>
+                        <p class="chart__tooltip--text">Emp. medianas: ${numberWithCommas(d.emp_mediana)}%</p>`;
+    
+                    tooltip.html(html);
+    
+                    //Posibilidad visualización línea diferente
+                    let current = e[i].getAttribute('class').split(" ")[1];
+                    let others = e[i].getAttribute('class').split(" ")[0];
+                    let otherCircles = chartBlock.selectAll(`.${others}`);
+
+                    otherCircles.each(function() {
+                        this.style.opacity = '0.4';
+                        if(this.getAttribute('class').indexOf(`${current}`) != -1) {
+                            this.style.opacity = '1';
+                        }
+                    });
+    
+                    //Tooltip
+                    positionTooltip(window.event, tooltip);
+                    getInTooltip(tooltip);               
+                })
+                .on('mouseout', function(d, i, e) {
+                    //Quitamos los estilos de la línea
+                    let others = e[i].getAttribute('class').split(" ")[0];
+                    let otherCircles = chartBlock.selectAll(`.${others}`);
+
+                    otherCircles.each(function() {
+                        this.style.opacity = '1';
+                    });
+    
+                    //Quitamos el tooltip
+                    getOutTooltip(tooltip);                
+                })
+                .transition()
+                .delay(1500)
+                .duration(750)
+                .style('opacity', '1')
+
+            chart.selectAll('.circles')
+                .data(data)
+                .enter()
+                .append('circle')
+                .attr('class', 'web-circle web-circle-grandes')
+                .attr("r", function(d) { return y.bandwidth() / 4; })
+                .attr("cx", function(d) { return x(d.emp_grande); })
+                .attr("cy", function(d) { return y(d.pais) + y.bandwidth() / 2; })
+                .style("fill", `${more_colors_third}`)
+                .style('opacity', '0')
+                .on('mouseenter mousedown mousemove mouseover', function(d, i, e) {
+                    //Texto
+                    let html = `<p class="chart__tooltip--title">${d.pais}</p>
+                        <p class="chart__tooltip--text">Emp. grandes: ${numberWithCommas(d.emp_grande)}%</p>`;
+    
+                    tooltip.html(html);
+    
+                    //Posibilidad visualización línea diferente
+                    let current = e[i].getAttribute('class').split(" ")[1];
+                    let others = e[i].getAttribute('class').split(" ")[0];
+                    let otherCircles = chartBlock.selectAll(`.${others}`);
+
+                    otherCircles.each(function() {
+                        this.style.opacity = '0.4';
+                        if(this.getAttribute('class').indexOf(`${current}`) != -1) {
+                            this.style.opacity = '1';
+                        }
+                    });
+    
+                    //Tooltip
+                    positionTooltip(window.event, tooltip);
+                    getInTooltip(tooltip);               
+                })
+                .on('mouseout', function(d, i, e) {
+                    //Quitamos los estilos de la línea
+                    let others = e[i].getAttribute('class').split(" ")[0];
+                    let otherCircles = chartBlock.selectAll(`.${others}`);
+
+                    otherCircles.each(function() {
+                        this.style.opacity = '1';
+                    });
+    
+                    //Quitamos el tooltip
+                    getOutTooltip(tooltip);                
+                })
+                .transition()
+                .delay(1500)
+                .duration(750)
+                .style('opacity', '1')
         }                   
     });
 }
@@ -167,7 +316,7 @@ function getSecondChart() {
             .key(function(d) { return d.tipo_eje; })
             .entries(data);
 
-        let ejeTipos = tipos.map(function(d) { return d.key; });
+        let ejeTipos = tipos.map(function(d) { return d.key + ":" + d.values[0].tipo; });
         let columnas = ['Brasil', 'México', 'Colombia', 'Chile', 'Argentina'];
         
         //Eje X > Países y columnas
@@ -182,7 +331,7 @@ function getSecondChart() {
             .domain(columnas);
 
         let xAxis = function(g){
-            g.call(d3.axisBottom(x0))
+            g.call(d3.axisBottom(x0).tickFormat(function(d) { return d.split(":")[0]; }))
             g.call(function(g){
                 g.selectAll('.tick text')
                     .style("text-anchor", "end")
@@ -194,6 +343,19 @@ function getSecondChart() {
             })
             g.call(function(g){g.selectAll('.tick line').remove()});
             g.call(function(g){g.select('.domain').remove()});
+            g.call(function(g){g.selectAll('.tick text').on('mouseenter mousedown mousemove mouseover', function(d) {
+                //Texto tooltip
+                let html = `<p class="chart__tooltip--title">${d.split(":")[1]}</p>`;                
+                tooltip.html(html);
+
+                //Tooltip
+                positionTooltip(window.event, tooltip);
+                getInTooltip(tooltip);
+            })});
+            g.call(function(g){g.selectAll('.tick text').on('mouseleave', function(d) { 
+                //Quitamos el tooltip
+                getOutTooltip(tooltip); 
+            })});
         }
 
         chart.append("g")
@@ -227,7 +389,7 @@ function getSecondChart() {
             .enter()
             .append("g")
             .attr("class", "g")
-            .attr("transform",function(d) { return "translate(" + x0(d.key) + ",0)"; });
+            .attr("transform",function(d) { return "translate(" + x0(d.key + ":" + d.values[0].tipo) + ",0)"; });
 
         //Visualización de datos
         window.addEventListener('scroll', function() {
