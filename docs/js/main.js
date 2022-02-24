@@ -68,16 +68,6 @@ function getFirstChart() {
         chart.append("g")
             .call(yAxis);
 
-        //Visualización de datos
-        // window.addEventListener('scroll', function() {
-        //     if (!chartBlock.node().classList.contains('visible')){
-        //         if(isElementInViewport(chartBlock.node())){
-        //             chartBlock.node().classList.add('visible');
-        //             initChart();
-        //         }                
-        //     }
-        // });
-
         initChart();        
 
         function initChart() {
@@ -95,7 +85,7 @@ function getFirstChart() {
                     return y(d.pais) + y.bandwidth() / 4;
                 })            
                 .attr("height", y.bandwidth() / 2)
-                .on('mouseenter mousedown mousemove mouseover', function(d, i, e) {
+                .on('mouseenter mousemove', function(d, i, e) {
                     let css = e[i].getAttribute('class').split('-')[1];
                     //Texto
                     let html = `<p class="chart__tooltip--title">${d.pais}</p>
@@ -148,7 +138,7 @@ function getFirstChart() {
                 .attr("cy", function(d) { return y(d.pais) + y.bandwidth() / 2; })
                 .style("fill", `${more_colors_first}`)
                 .style('opacity', '0')
-                .on('mouseenter mousedown mousemove mouseover', function(d, i, e) {
+                .on('mouseenter mousemove', function(d, i, e) {
                     //Texto
                     let html = `<p class="chart__tooltip--title">${d.pais}</p>
                         <p class="chart__tooltip--text">Emp. pequeñas: ${numberWithCommas(d.emp_pequena)}%</p>`;
@@ -198,7 +188,7 @@ function getFirstChart() {
                 .attr("cy", function(d) { return y(d.pais) + y.bandwidth() / 2; })
                 .style("fill", `${more_colors_second}`)
                 .style('opacity', '0')
-                .on('mouseenter mousedown mousemove mouseover', function(d, i, e) {
+                .on('mouseenter mousemove', function(d, i, e) {
                     //Texto
                     let html = `<p class="chart__tooltip--title">${d.pais}</p>
                         <p class="chart__tooltip--text">Emp. medianas: ${numberWithCommas(d.emp_mediana)}%</p>`;
@@ -248,7 +238,7 @@ function getFirstChart() {
                 .attr("cy", function(d) { return y(d.pais) + y.bandwidth() / 2; })
                 .style("fill", `${more_colors_third}`)
                 .style('opacity', '0')
-                .on('mouseenter mousedown mousemove mouseover', function(d, i, e) {
+                .on('mouseenter mousemove', function(d, i, e) {
                     //Texto
                     let html = `<p class="chart__tooltip--title">${d.pais}</p>
                         <p class="chart__tooltip--text">Emp. grandes: ${numberWithCommas(d.emp_grande)}%</p>`;
@@ -343,7 +333,7 @@ function getSecondChart() {
             })
             g.call(function(g){g.selectAll('.tick line').remove()});
             g.call(function(g){g.select('.domain').remove()});
-            g.call(function(g){g.selectAll('.tick text').on('mouseenter mousedown mousemove mouseover', function(d) {
+            g.call(function(g){g.selectAll('.tick text').on('mouseenter mousemove', function(d) {
                 //Texto tooltip
                 let html = `<p class="chart__tooltip--title">${d.split(":")[1]}</p>`;                
                 tooltip.html(html);
@@ -423,7 +413,7 @@ function getSecondChart() {
                 })
                 .attr("width", x1.bandwidth())
                 .style('fill',function(d) { return d.pais == 'Brasil' ? more_colors_first : d.pais == 'México' ? more_colors_second : d.pais == 'Colombia' ? more_colors_third : d.pais == 'Chile' ? more_colors_fourth : more_colors_fifth})
-                .on('mouseenter mousedown mousemove mouseover', function(d, i, e) {
+                .on('mouseenter mousemove', function(d, i, e) {
                     let css = e[i].getAttribute('class').split('-')[1];
 
                     //Texto
@@ -550,7 +540,7 @@ function getThirdChart() {
                     return x(d.tipo) + x.bandwidth() / 4;                                       
                 })            
                 .attr("width", x.bandwidth() / 2)
-                .on('mouseenter mousedown mousemove mouseover', function(d, i, e) {
+                .on('mouseenter mousemove', function(d, i, e) {
                     let css = e[i].getAttribute('class').split('-')[1];
                     //Texto
                     let html = `<p class="chart__tooltip--title">${d.tipo}</p>
